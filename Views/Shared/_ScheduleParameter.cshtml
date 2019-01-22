@@ -14,8 +14,15 @@
         @foreach (var parameter in @Model)
         {
             <div class="col-sm-12 col-xs-12 no-padding">
-                <div class="col-sm-2 col-xs-2 no-padding align-center"><label class="parameter-label">@parameter.Prompt.TrimEnd(':')</label></div>
-                <div class="col-sm-4 col-xs-4"><input type="text" class="form-control" id="@parameter.Name" name="@parameter.Name" dataType="@parameter.DataType" value= "@String.Join(",", parameter.DefaultValue == null? new List<string>() : parameter.DefaultValue.Values.ToList())" @(parameter.Hidden ? "disabled" : "") maxlength="50"></div>
+                @if (parameter.Prompt == null)
+                {
+                    <div class="col-sm-2 col-xs-2 no-padding align-center"><label class="parameter-label">@parameter.Name</label></div>
+                }
+                else
+                {
+                    <div class="col-sm-2 col-xs-2 no-padding align-center"><label class="parameter-label">@parameter.Prompt</label></div>
+                }
+                <div class="col-sm-4 col-xs-4"><input type="text" class="form-control" id="@parameter.Name" name="@parameter.Name" dataType="@parameter.DataType" value="@String.Join(",", parameter.DefaultValue == null? new List<string>() : parameter.DefaultValue.Values.ToList())" @(parameter.Hidden ? "disabled" : "") maxlength="50"></div>
                 <div class="page-indent text col-sm-2 col-xs-2">
                     @Html.CheckBox(@parameter.Name + "-use-default", parameter.Hidden, new { @class = "material-checkbox use-default", @dataAttrId = @parameter.Name, @id = @parameter.Name + "-use-default" })
                     @Html.Label(@parameter.Name + "-use-default", "[[[Use Default]]]", new { @class = "normal-font" })
